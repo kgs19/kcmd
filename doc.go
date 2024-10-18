@@ -9,9 +9,9 @@
 // Example usage:
 //     import "github.com/kgs19/kcmd"
 //
-//     // Execute a kubectl command
-//     err := kcmd.ExecKubectlCommand("get pods", "/path/to/kubeconfig", nil, os.Stdout)
+//     // Execute a 'docker version' command
+//     err := kcmd.RunDockerVersion()
 //     if err != nil {
-//         log.Fatalf("Error executing kubectl command: %v", err)
+// 	     log.Fatalf("Error executing 'docker version' command: %v", err)
 //     }
 package kcmd
