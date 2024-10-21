@@ -3,8 +3,8 @@ package kcmd
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
-	"log/slog"
 	"os"
 	"os/exec"
 	"strings"
@@ -30,9 +30,9 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 	exitCode := 0
 	var errb bytes.Buffer
 
-	if DefaultConfig.LogCommand {
+	if DefaultConfig.PrintCommand {
 		// Log the command details
-		logCmd(cmdStr, cmdDir, envVars, args...)
+		printCmd(cmdStr, cmdDir, envVars, args...)
 	}
 
 	// Set up the command with the provided directory and arguments
@@ -51,11 +51,17 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 	if err != nil {
 		exitCode = 1
 		stdErrorMsg := errb.String()
+
+		// If no error message is captured in stderr, use the err.Error() instead
+		if stdErrorMsg == "" {
+			stdErrorMsg = err.Error()
+		}
+
 		var exitError *exec.ExitError
 		if errors.As(err, &exitError) { // errors.As() -> function allows you to extract a specific error type from the error chain
 			exitCode = exitError.ExitCode() //try to get actual cmd exitCode
 		}
-		err := NewCommandError(stdErrorMsg, exitCode, cmdStr, args...)
+		err := NewCommandError(stdErrorMsg, exitCode, cmdDir, cmdStr, args...)
 		return err
 	}
 	return nil
@@ -96,8 +102,13 @@ func cmdStrWithArgs(cmdStr string, args ...string) string {
 	return cmdStr + " " + strings.Join(args, " ")
 }
 
-func logCmd(cmdStr string, cmdDir string, envVars []string, args ...string) {
+func printCmd(cmdStr string, cmdDir string, envVars []string, args ...string) {
+	// Do not print envVars may contain sensitive information
+	// TODO add a flag to optionally print envVars also
 	cmd := cmdStrWithArgs(cmdStr, args...)
-	slog.Info("cmdDir: " + cmdDir + " - env: " + strings.Join(envVars, " "))
-	slog.Info("Executing: " + cmd)
+	if cmdDir != "" {
+		fmt.Printf("Execution directory: %s\n", cmdDir)
+	}
+	//print the command to the standard output
+	fmt.Printf("\nExecuting cmd: \n%s\n\n", cmd)
 }

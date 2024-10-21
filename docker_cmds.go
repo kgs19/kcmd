@@ -9,7 +9,8 @@ import (
 // It returns an error if the command execution fails.
 //
 // Returns:
-//   error: An error if the 'docker version' command fails to execute, otherwise nil.
+//
+//	error: An error if the 'docker version' command fails to execute, otherwise nil.
 func RunDockerVersion() error {
 	cmdStr := "docker"
 	cmdDir := ""

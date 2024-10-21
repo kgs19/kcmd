@@ -2,12 +2,12 @@ package kcmd
 
 // Config holds the configuration settings for the kcmd library.
 type Config struct {
-	LogCommand bool // Flag to enable or disable command logging
+	PrintCommand bool // Flag to enable or disable command logging
 }
 
 // DefaultConfig provides default settings for the library.
 var DefaultConfig = Config{
-	LogCommand: false, // Default logging is disabled
+	PrintCommand: false, // Not print the command by default
 }
 
 // SetConfig allows users to set custom configuration options.

@@ -5,24 +5,33 @@ import "fmt"
 // CommandError represents an error that occurred while executing a command.
 // It includes the exit code, standard error message, and the command that was executed.
 type CommandError struct {
-	exitCode    int
-	stdErrorMsg string
-	command     string
+	exitCode int
+	errorMsg string
+	command  string
+	cmdDir   string
 }
 
 func (e *CommandError) Error() string {
+	if e.cmdDir == "" {
+		return fmt.Sprintf(
+			"failed Command: \n%s\n"+
+				"exit code: %d\n"+
+				"error message: \n%s\n",
+			e.command, e.exitCode, e.errorMsg)
+	}
 	return fmt.Sprintf(
-		"Failed Command: \n%s\n"+
-			"Exit code: %d\n"+
-			"Error message: \n%s\n",
-		e.command, e.exitCode, e.stdErrorMsg,
-	)
+		"failed Command: \n%s\n"+
+			"exit code: %d\n"+
+			"error message: \n%s\n"+
+			"execution directory: %s\n",
+		e.command, e.exitCode, e.errorMsg, e.cmdDir)
 }
 
-func NewCommandError(stdErrorMsg string, exitCode int, cmdStr string, args ...string) *CommandError {
+func NewCommandError(errorMsg string, exitCode int, cmdDir string, cmdStr string, args ...string) *CommandError {
 	return &CommandError{
-		exitCode:    exitCode,
-		stdErrorMsg: stdErrorMsg,
-		command:     cmdStrWithArgs(cmdStr, args...),
+		exitCode: exitCode,
+		errorMsg: errorMsg,
+		cmdDir:   cmdDir,
+		command:  cmdStrWithArgs(cmdStr, args...),
 	}
 }
