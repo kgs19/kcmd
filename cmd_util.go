@@ -32,7 +32,7 @@ func runCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output io
 
 	if DefaultConfig.PrintCommandEnabled {
 		// Log the command details
-		printCmd(cmdStr, cmdDir, envVars, output, args...)
+		printCmd(cmdStr, cmdDir, output, args...)
 	}
 
 	// Set up the command with the provided directory and arguments
@@ -87,28 +87,28 @@ var runCommandPrintOutput = func(cmdStr string, cmdDir string, envVars []string,
 	return runCommandWithEnv(cmdStr, cmdDir, envVars, output, args...)
 }
 
-// runCommandReturnOutput executes a shell command with specified environment variables
-// and returns the output as a string. It uses the runCommandWithEnv function to handle the
-// command execution and output.
+//// runCommandReturnOutput executes a shell command with specified environment variables
+//// and returns the output as a string. It uses the runCommandWithEnv function to handle the
+//// command execution and output.
+////
+//// Parameters:
+//// - cmdStr: The command to be executed
+//// - cmdDir: The directory in which to execute the command
+//// - envVars: A slice of environment variables to set for the command
+//// - args: Additional arguments to pass to the command
+////
+//// Returns:
+//// - string: The output of the command as a string
+//// - error: An error if the command fails, otherwise nil
+//func runCommandReturnOutput(cmdStr string, cmdDir string, envVars []string, args ...string) (string, error) {
+//	var output bytes.Buffer
+//	err := runCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
+//	if err != nil {
+//		return "", err
+//	}
+//	return output.String(), nil
 //
-// Parameters:
-// - cmdStr: The command to be executed
-// - cmdDir: The directory in which to execute the command
-// - envVars: A slice of environment variables to set for the command
-// - args: Additional arguments to pass to the command
-//
-// Returns:
-// - string: The output of the command as a string
-// - error: An error if the command fails, otherwise nil
-func runCommandReturnOutput(cmdStr string, cmdDir string, envVars []string, args ...string) (string, error) {
-	var output bytes.Buffer
-	err := runCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
-	if err != nil {
-		return "", err
-	}
-	return output.String(), nil
-
-}
+//}
 
 func setCmdEnvVars(cmd *exec.Cmd, envVars []string) {
 	cmd.Env = os.Environ()
@@ -123,13 +123,14 @@ func cmdStrWithArgs(cmdStr string, args ...string) string {
 	return cmdStr + " " + strings.Join(args, " ")
 }
 
-func printCmd(cmdStr string, cmdDir string, envVars []string, output io.Writer, args ...string) {
-	// Do not print envVars may contain sensitive information
-	// TODO add a flag to optionally print envVars also
+func printCmd(cmdStr string, cmdDir string, output io.Writer, args ...string) {
+	// For now do not print envVars may contain sensitive information
 	cmd := cmdStrWithArgs(cmdStr, args...)
 	if cmdDir != "" {
-		fmt.Fprintf(output, "Execution directory: %s\n", cmdDir)
+		//Ignore error
+		_, _ = fmt.Fprintf(output, "Execution directory: %s\n", cmdDir)
 	}
-	//print the command to the standard output
-	fmt.Fprintf(output, "\nExecuting cmd: \n%s\n\n", cmd)
+	//print the command to output
+	//Ignore error
+	_, _ = fmt.Fprintf(output, "\nExecuting cmd: \n%s\n\n", cmd)
 }
