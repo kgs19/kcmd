@@ -30,7 +30,7 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 	exitCode := 0
 	var errb bytes.Buffer
 
-	if DefaultConfig.PrintCommand {
+	if DefaultConfig.PrintCommandEnabled {
 		// Log the command details
 		printCmd(cmdStr, cmdDir, envVars, args...)
 	}
@@ -61,7 +61,7 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 		if errors.As(err, &exitError) { // errors.As() -> function allows you to extract a specific error type from the error chain
 			exitCode = exitError.ExitCode() //try to get actual cmd exitCode
 		}
-		err := NewCommandError(stdErrorMsg, exitCode, cmdDir, cmdStr, args...)
+		err := newCommandError(stdErrorMsg, exitCode, cmdDir, cmdStr, args...)
 		return err
 	}
 	return nil

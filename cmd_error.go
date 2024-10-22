@@ -2,16 +2,16 @@ package kcmd
 
 import "fmt"
 
-// CommandError represents an error that occurred while executing a command.
+// commandError represents an error that occurred while executing a command.
 // It includes the exit code, standard error message, and the command that was executed.
-type CommandError struct {
+type commandError struct {
 	exitCode int
 	errorMsg string
 	command  string
 	cmdDir   string
 }
 
-func (e *CommandError) Error() string {
+func (e *commandError) Error() string {
 	if e.cmdDir == "" {
 		return fmt.Sprintf(
 			"failed Command: \n%s\n"+
@@ -27,8 +27,8 @@ func (e *CommandError) Error() string {
 		e.command, e.exitCode, e.errorMsg, e.cmdDir)
 }
 
-func NewCommandError(errorMsg string, exitCode int, cmdDir string, cmdStr string, args ...string) *CommandError {
-	return &CommandError{
+func newCommandError(errorMsg string, exitCode int, cmdDir string, cmdStr string, args ...string) *commandError {
+	return &commandError{
 		exitCode: exitCode,
 		errorMsg: errorMsg,
 		cmdDir:   cmdDir,
