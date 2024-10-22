@@ -1,7 +1,7 @@
 
 test:
 	@echo "Running tests..."
-	go test
+	go test -v
 	@echo "Done!"
 
 # 	Add go fmt to format the code

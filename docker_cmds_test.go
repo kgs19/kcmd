@@ -1,21 +1,53 @@
 package kcmd
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
 func TestRunDockerVersion(t *testing.T) {
+	// Save the original function to restore it later
+	originalExecShCommandEnvPrintOutput := execShCommandEnvPrintOutput
+
+	// Override the execShCommandEnvPrintOutput variable
+	var output bytes.Buffer
+	execShCommandEnvPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
+		return execCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
+	}
+
+	// Ensure the original function is restored after the test
+	defer func() {
+		execShCommandEnvPrintOutput = originalExecShCommandEnvPrintOutput
+	}()
+
 	tests := []struct {
-		name      string
-		config    Config
-		expectErr bool
+		name               string
+		config             Config
+		expectedOutputKeys []string
+		expectErr          bool
 	}{
 		{
-			name:      "Default configuration",
-			config:    Config{},
+			name:   "Default configuration",
+			config: Config{},
+			expectedOutputKeys: []string{
+				"Client:",
+				"Version:",
+				"Go version:",
+				"GitCommit:",
+			},
 			expectErr: false,
 		},
 		{
-			name:      "Custom configuration with PrintCommandEnabled enabled",
-			config:    Config{PrintCommandEnabled: true},
+			name:   "Custom configuration with PrintCommandEnabled",
+			config: Config{PrintCommandEnabled: true},
+			expectedOutputKeys: []string{
+				"Client:",
+				"Version:",
+				"Go version:",
+				"GitCommit:",
+				"docker version",
+			},
 			expectErr: false,
 		},
 	}
@@ -27,6 +59,16 @@ func TestRunDockerVersion(t *testing.T) {
 			if (err != nil) != tt.expectErr {
 				t.Errorf("RunDockerVersion() failed, expected error: %v, got: %v", tt.expectErr, err)
 			}
+
+			outputStr := output.String()
+			//fmt.Printf("Output: %s\n", outputStr)
+			// Check the captured output
+			for _, key := range tt.expectedOutputKeys {
+				if !strings.Contains(outputStr, key) {
+					t.Errorf("Expected output to contain: %s, but it was not found", key)
+				}
+			}
+
 		})
 	}
 }

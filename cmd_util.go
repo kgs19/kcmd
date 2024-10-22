@@ -32,7 +32,7 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 
 	if DefaultConfig.PrintCommandEnabled {
 		// Log the command details
-		printCmd(cmdStr, cmdDir, envVars, args...)
+		printCmd(cmdStr, cmdDir, envVars, output, args...)
 	}
 
 	// Set up the command with the provided directory and arguments
@@ -67,9 +67,12 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 	return nil
 }
 
-// execShCommandEnvPrintOutput executes a shell command with specified environment variables
-// and prints the output to the standard output. It uses the execCommandWithEnv function to
-// handle the command execution and output.
+// execShCommandEnvPrintOutput is a variable holding an anonymous function that executes a shell command
+// with specified environment variables and prints the output to the standard output. It uses the
+// execCommandWithEnv function to handle the command execution and output.
+//
+// This function was previously implemented as a standalone function. It has now been refactored to be a
+// variable holding an anonymous function, allowing for easier overriding and testing.
 //
 // Parameters:
 // - cmdStr: The command to be executed.
@@ -79,8 +82,7 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 //
 // Returns:
 // - error: An error if the command fails, otherwise nil.
-func execShCommandEnvPrintOutput(cmdStr string, cmdDir string, envVars []string, args ...string) error {
-	//print the output to the standard output
+var execShCommandEnvPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
 	output := os.Stdout
 	return execCommandWithEnv(cmdStr, cmdDir, envVars, output, args...)
 }
@@ -121,13 +123,13 @@ func cmdStrWithArgs(cmdStr string, args ...string) string {
 	return cmdStr + " " + strings.Join(args, " ")
 }
 
-func printCmd(cmdStr string, cmdDir string, envVars []string, args ...string) {
+func printCmd(cmdStr string, cmdDir string, envVars []string, output io.Writer, args ...string) {
 	// Do not print envVars may contain sensitive information
 	// TODO add a flag to optionally print envVars also
 	cmd := cmdStrWithArgs(cmdStr, args...)
 	if cmdDir != "" {
-		fmt.Printf("Execution directory: %s\n", cmdDir)
+		fmt.Fprintf(output, "Execution directory: %s\n", cmdDir)
 	}
 	//print the command to the standard output
-	fmt.Printf("\nExecuting cmd: \n%s\n\n", cmd)
+	fmt.Fprintf(output, "\nExecuting cmd: \n%s\n\n", cmd)
 }
