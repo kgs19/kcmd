@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// execCommandWithEnv executes a shell command with specified environment variables
+// runCommandWithEnv executes a shell command with specified environment variables
 // and outputs the result to the provided writer. It logs the command details and handles errors.
 //
 // Parameters:
@@ -26,7 +26,7 @@ import (
 // The function logs the command details, sets the specified environment variables,
 // and pipes the command's output to the provided writer. If the command fails, it
 // captures the standard error message and exit code, and returns a custom error.
-func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output io.Writer, args ...string) error {
+func runCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output io.Writer, args ...string) error {
 	exitCode := 0
 	var errb bytes.Buffer
 
@@ -67,9 +67,9 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 	return nil
 }
 
-// execShCommandEnvPrintOutput is a variable holding an anonymous function that executes a shell command
+// runCommandPrintOutput is a variable holding an anonymous function that executes a shell command
 // with specified environment variables and prints the output to the standard output. It uses the
-// execCommandWithEnv function to handle the command execution and output.
+// runCommandWithEnv function to handle the command execution and output.
 //
 // This function was previously implemented as a standalone function. It has now been refactored to be a
 // variable holding an anonymous function, allowing for easier overriding and testing.
@@ -82,13 +82,13 @@ func execCommandWithEnv(cmdStr string, cmdDir string, envVars []string, output i
 //
 // Returns:
 // - error: An error if the command fails, otherwise nil.
-var execShCommandEnvPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
+var runCommandPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
 	output := os.Stdout
-	return execCommandWithEnv(cmdStr, cmdDir, envVars, output, args...)
+	return runCommandWithEnv(cmdStr, cmdDir, envVars, output, args...)
 }
 
-// execShCommandEnvReturnOutput executes a shell command with specified environment variables
-// and returns the output as a string. It uses the execCommandWithEnv function to handle the
+// runCommandReturnOutput executes a shell command with specified environment variables
+// and returns the output as a string. It uses the runCommandWithEnv function to handle the
 // command execution and output.
 //
 // Parameters:
@@ -100,9 +100,9 @@ var execShCommandEnvPrintOutput = func(cmdStr string, cmdDir string, envVars []s
 // Returns:
 // - string: The output of the command as a string
 // - error: An error if the command fails, otherwise nil
-func execShCommandEnvReturnOutput(cmdStr string, cmdDir string, envVars []string, args ...string) (string, error) {
+func runCommandReturnOutput(cmdStr string, cmdDir string, envVars []string, args ...string) (string, error) {
 	var output bytes.Buffer
-	err := execCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
+	err := runCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
 	if err != nil {
 		return "", err
 	}

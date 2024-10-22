@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// RunDockerVersion executes the 'docker version' command using the execShCommandEnvPrintOutput function.
+// RunDockerVersion executes the 'docker version' command using the runCommandPrintOutput function.
 // Will print the output of the command to the console (stdout).
 // It returns an error if the command execution fails.
 //
@@ -16,7 +16,7 @@ func RunDockerVersion() error {
 	cmdDir := ""
 
 	args := []string{"version"}
-	if err := execShCommandEnvPrintOutput(cmdStr, cmdDir, nil, args...); err != nil {
+	if err := runCommandPrintOutput(cmdStr, cmdDir, nil, args...); err != nil {
 		return fmt.Errorf("failed to execute 'docker version' command: %w", err)
 	}
 	return nil

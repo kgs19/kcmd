@@ -8,17 +8,17 @@ import (
 
 func TestRunDockerVersion(t *testing.T) {
 	// Save the original function to restore it later
-	originalExecShCommandEnvPrintOutput := execShCommandEnvPrintOutput
+	originalRunCommandPrintOutput := runCommandPrintOutput
 
-	// Override the execShCommandEnvPrintOutput variable
+	// Override the runCommandPrintOutput variable
 	var output bytes.Buffer
-	execShCommandEnvPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
-		return execCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
+	runCommandPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
+		return runCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
 	}
 
 	// Ensure the original function is restored after the test
 	defer func() {
-		execShCommandEnvPrintOutput = originalExecShCommandEnvPrintOutput
+		runCommandPrintOutput = originalRunCommandPrintOutput
 	}()
 
 	tests := []struct {
