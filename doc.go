@@ -7,11 +7,12 @@
 // environment variables, and handling command outputs, among other utilities.
 //
 // Example usage:
-//     import "github.com/kgs19/kcmd"
 //
-//     // Execute a 'docker version' command
-//     err := kcmd.RunDockerVersion()
-//     if err != nil {
-// 	     log.Fatalf("Error executing 'docker version' command: %v", err)
-//     }
+//	    import "github.com/kgs19/kcmd"
+//
+//	    // Execute a 'docker version' command
+//	    err := kcmd.RunDockerVersion()
+//	    if err != nil {
+//		     log.Fatalf("Error executing 'docker version' command: %v", err)
+//	    }
 package kcmd
