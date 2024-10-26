@@ -1,0 +1,4 @@
+# empty for now
+
+image: nginx:latest
+replicaCount: 1
