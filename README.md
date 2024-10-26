@@ -1,5 +1,5 @@
 # kcmd
-A Golang library that serves as a wrapper around basic kubectl, Helm, and Docker commands.
+A Golang library that serves as a wrapper around basic kubectl, Helm, and Docker cli commands.
 
 ## ✅ Prerequisites
 This library expects the following tools to be installed and available in your system's PATH:
