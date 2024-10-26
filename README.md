@@ -18,18 +18,39 @@ go get -u github.com/kgs19/kcmd
 See [./examples](./examples) for example usage.
 
 ```go
-package main
-
-import (
-	"github.com/kgs19/kcmd"
-	"log"
-)
-
-// example usage of the kcmd package
 func main() {
 	err := kcmd.RunDockerVersion()
 	if err != nil {
 		log.Fatalf("Error executing 'docker version' command: %v", err)
 	}
 }
+```
+
+##  Config struct - Library Configuration
+The library also provides a `Config` struct that can be used to configure the behavior of the library.
+```go
+// Config holds the configuration settings for the kcmd library.
+type Config struct {
+	PrintCommandEnabled bool   // Flag to enable or disable command logging
+	BaseCommandDir      string // Directory to use by default to execute all commands
+}
+```
+Example on how to use the `Config` struct:
+```go
+func main() {
+	// USe Config struct to enable command logging
+	customKcmdConfig := kcmd.Config{PrintCommandEnabled: true}
+	kcmd.SetConfig(customKcmdConfig)
+	err := kcmd.RunDockerVersion()
+	if err != nil {
+		log.Fatalf("Error executing 'docker version' command: %v", err)
+	}
+}
+```
+
+## Config struct - Environment Variables
+The library also provides a way to configure the library using environment variables.
+```bash
+export KCMD_PRINT_COMMAND_ENABLED=true
+export KCMD_BASE_COMMAND_DIR=/path/to/base/dir
 ```

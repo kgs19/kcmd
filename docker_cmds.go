@@ -13,7 +13,7 @@ import (
 //	error: An error if the 'docker version' command fails to execute, otherwise nil.
 func RunDockerVersion() error {
 	cmdStr := "docker"
-	cmdDir := ""
+	cmdDir := DefaultConfig.BaseCommandDir
 
 	args := []string{"version"}
 	if err := runCommandPrintOutput(cmdStr, cmdDir, nil, args...); err != nil {
