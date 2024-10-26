@@ -1,6 +1,9 @@
 package main
 
-import "github.com/kgs19/kcmd"
+import (
+	"github.com/kgs19/kcmd"
+	"log"
+)
 
 // Set the following environment variables before running the example
 // export KCMD_PRINT_COMMAND_ENABLED=true
@@ -17,5 +20,8 @@ func main() {
 		SetValues:         map[string]string{"replicaCount": "2"},
 		WaitFlag:          true,
 	}
-	kcmd.RunHelmInstall(helmChart)
+	err := kcmd.RunHelmInstall(helmChart)
+	if err != nil {
+		log.Fatalf("Error executing 'helm install' command: %v", err)
+	}
 }
