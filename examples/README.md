@@ -36,11 +36,12 @@ func main() {
 ```
 
 #### Running the Example
-- There are two ways to run the example:
+There are two ways to run the example:
   1. Run the example using the `go run` command.
   2. Build the example using the `go build` command and run the executable.
+- 
 
-1. Run the example using the `go run` command.
+1. Run the example using the `go run` command.  
    With this method, we need to set the following environment variables before running the example. 
 ```shell 
 cd examples/helm/
