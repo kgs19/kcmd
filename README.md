@@ -13,7 +13,7 @@ To install the library, run the following command:
 go get -u github.com/kgs19/kcmd
 ```
 
-## Commands Overview
+## 📜 Commands Overview
 The `kcmd` library provides the following high-level commands:
 - **Helm Commands:**
     - `RunHelmInstall`: Executes the `helm upgrade --install` command to install or upgrade a Helm chart.
@@ -38,7 +38,7 @@ func main() {
 }
 ```
 
-##  Config struct 
+## ⚙️ Config struct
 ### Library Configuration
 The library also provides a `Config` struct that can be used to configure the behavior of the library.
 
