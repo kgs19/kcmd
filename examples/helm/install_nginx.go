@@ -5,11 +5,6 @@ import (
 	"log"
 )
 
-// Set the following environment variables before running the example
-// export KCMD_PRINT_COMMAND_ENABLED=true
-// export KCMD_BASE_COMMAND_DIR=$(pwd)
-
-// example usage of the kcmd package
 func main() {
 
 	helmChart := kcmd.HelmChart{
