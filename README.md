@@ -13,11 +13,23 @@ To install the library, run the following command:
 go get -u github.com/kgs19/kcmd
 ```
 
+## Commands Overview
+The `kcmd` library provides the following high-level commands:
+- **Helm Commands:**
+    - `RunHelmInstall`: Executes the `helm upgrade --install` command to install or upgrade a Helm chart.
+- **Docker Commands:**
+    - `RunDockerVersion`: Executes the `docker version` command to display Docker version information.
+
 ## 💡 Examples
-
 See [./examples](./examples) for example usage.
-
 ```go
+package main
+
+import (
+	"github.com/kgs19/kcmd"
+	"log"
+)
+
 func main() {
 	err := kcmd.RunDockerVersion()
 	if err != nil {
@@ -26,19 +38,31 @@ func main() {
 }
 ```
 
-##  Config struct - Library Configuration
+##  Config struct 
+### Library Configuration
 The library also provides a `Config` struct that can be used to configure the behavior of the library.
+
 ```go
 // Config holds the configuration settings for the kcmd library.
 type Config struct {
-	PrintCommandEnabled bool   // Flag to enable or disable command logging
-	BaseCommandDir      string // Directory to use by default to execute all commands
+	PrintCommandEnabled bool   // Flag to enable or disable printing the command executed
+	BaseCommandDir      string // Directory to use to execute the commands
 }
 ```
+ - `PrintCommandEnabled`: Flag to enable or disable printing the command executed. Default is `false`.
+ - `BaseCommandDir`: Directory to use to execute the commands. Default is the directory of the executable file.
+
 Example on how to use the `Config` struct:
 ```go
+package main
+
+import (
+	"github.com/kgs19/kcmd"
+	"log"
+)
+
 func main() {
-	// USe Config struct to enable command logging
+	// Use custom Config struct to print the command executed and the cmd path
 	customKcmdConfig := kcmd.Config{PrintCommandEnabled: true}
 	kcmd.SetConfig(customKcmdConfig)
 	err := kcmd.RunDockerVersion()
@@ -46,9 +70,10 @@ func main() {
 		log.Fatalf("Error executing 'docker version' command: %v", err)
 	}
 }
+
 ```
 
-## Config struct - Environment Variables
+### Config struct - Environment Variables
 The library also provides a way to configure the library using environment variables.
 ```bash
 export KCMD_PRINT_COMMAND_ENABLED=true

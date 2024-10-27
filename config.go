@@ -8,8 +8,8 @@ import (
 
 // Config holds the configuration settings for the kcmd library.
 type Config struct {
-	PrintCommandEnabled bool   // Flag to enable or disable command logging
-	BaseCommandDir      string // Directory to use by default to execute all commands
+	PrintCommandEnabled bool   // Flag to enable or disable printing the command executed
+	BaseCommandDir      string // Directory to use to execute the commands
 }
 
 // DefaultConfig provides default settings for the library.
