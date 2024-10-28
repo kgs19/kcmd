@@ -60,6 +60,12 @@ go build install_nginx.go
 The following is the same example where additional optional Helm arguments are provided. 
 #### File: [helm/install_nginx.go](./helm/install_nginx.go)
 
+### Uninstall Nginx Helm Chart
+This example demonstrates how to use the `kcmd` library to uninstall a [Nginx Helm chart](./helm/nginx-chart) .
+#### File: [helm/uninstall_nginx.go](./helm/uninstall_nginx.go)
+See the first example for instructions on running the example.
+
+--- 
 ## Docker Commands
 
 ### Check Docker Version
