@@ -8,30 +8,30 @@ This directory contains example usage of the `kcmd` library. Below are the detai
 
 This example demonstrates how to use the `kcmd` library to install a [Nginx Helm chart](./helm/nginx-chart) .
 
-#### File: [install_nginx.go](./helm/install_nginx.go)
+#### File: [helm/install_nginx_minimal.go](./helm/install_nginx_minimal.go)
 
 ```go
 package main
 
 import (
-	"github.com/kgs19/kcmd"
-	"log"
+   "github.com/kgs19/kcmd"
+   "log"
 )
 
 func main() {
-	helmChart := kcmd.HelmChart{
-		Namespace:         "default",
-		ReleaseName:       "nginx",
-		RelativeChartPath: "nginx-chart",
-		ValuesFiles:       []string{"values.yaml", "values-dev.yaml"},
-		SetValues:         map[string]string{"replicaCount": "2"},
-		WaitFlag:          true,
-	}
-	err := kcmd.RunHelmInstall(helmChart)
-	if err != nil {
-		log.Fatalf("Error executing 'helm install' command: %v", err)
-	}
+
+   helmChart := kcmd.HelmChart{
+      Namespace:         "default",
+      ReleaseName:       "nginx",
+      RelativeChartPath: "nginx-chart",
+   }
+
+   err := kcmd.RunHelmInstall(helmChart)
+   if err != nil {
+      log.Fatalf("Error executing 'helm install' command: %v", err)
+   }
 }
+
 
 ```
 
@@ -56,6 +56,9 @@ cd examples/helm/
 go build install_nginx.go
 ./install_nginx
 ```
+
+The following is the same example where additional optional Helm arguments are provided. 
+#### File: [helm/install_nginx.go](./helm/install_nginx.go)
 
 ## Docker Commands
 
