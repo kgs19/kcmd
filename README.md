@@ -20,6 +20,7 @@ The `kcmd` library provides the following high-level commands:
     - `RunHelmCmd`: Executes any Helm command with specific args. Use for cases not already covered by the library.
 - **Docker Commands:**
     - `RunDockerVersion`: Executes the `docker version` command to display Docker version information.
+    - `RunHelmCmd`: Executes any Helm command with specific args. Use for cases not already covered by the library.
 
 ### By convention, 
 all commands that are prefixed with `Run` will print the output of the commands.

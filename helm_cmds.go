@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+const helmCmd = "helm"
+
 // HelmChart represents the configuration for a Helm chart installation.
 // It includes the release name, chart path, values files, set values, and a wait flag.
 type HelmChart struct {
@@ -29,8 +31,7 @@ type HelmChart struct {
 // in the provided directory. It uses the runCommandPrintOutput function to run the command
 // and print its output.
 func RunHelmCmd(cmdDir string, envVars []string, args ...string) error {
-	cmdStr := "helm"
-	if err := runCommandPrintOutput(cmdStr, cmdDir, nil, args...); err != nil {
+	if err := runCommandPrintOutput(helmCmd, cmdDir, nil, args...); err != nil {
 		return err
 	}
 	return nil
