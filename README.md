@@ -17,8 +17,13 @@ go get -u github.com/kgs19/kcmd
 The `kcmd` library provides the following high-level commands:
 - **Helm Commands:**
     - `RunHelmInstall`: Executes the `helm upgrade --install` command to install or upgrade a Helm chart.
+    - `RunHelmCmd`: Executes any Helm command with specific args. Use for cases not already covered by the library.
 - **Docker Commands:**
     - `RunDockerVersion`: Executes the `docker version` command to display Docker version information.
+
+### By convention, 
+all commands that are prefixed with `Run` will print the output of the commands.
+all commands that are prefixed with `Get` will return the output of the commands.
 
 ## 💡 Examples
 See [./examples](./examples) for example usage.
