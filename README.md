@@ -49,3 +49,4 @@ export KCMD_BASE_COMMAND_DIR=/path/to/base/dir
 
 ## TODO
 - Add `Get` commands 
+- Review Config struct - move logic to cmdx ??
