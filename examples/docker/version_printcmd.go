@@ -7,8 +7,11 @@ import (
 
 // example usage of the kcmd package
 func main() {
-	// USe Config struct to enable command logging
-	customKcmdConfig := kcmd.Config{PrintCommandEnabled: true}
+
+	// Use custom Config struct to enable command logging
+	customKcmdConfig := kcmd.DefaultConfig
+	customKcmdConfig.PrintCommandEnabled = true
+
 	kcmd.SetConfig(customKcmdConfig)
 	err := kcmd.RunDockerVersion()
 	if err != nil {

@@ -2,45 +2,11 @@
 
 This directory contains example usage of the `kcmd` library. Below are the details of each example provided.
 
-## Helm Commands
-
-### Install Nginx Helm Chart
-
-This example demonstrates how to use the `kcmd` library to install a [Nginx Helm chart](./helm/nginx-chart) .
-
-#### File: [helm/install_nginx_minimal.go](./helm/install_nginx_minimal.go)
-
-```go
-package main
-
-import (
-   "github.com/kgs19/kcmd"
-   "log"
-)
-
-func main() {
-
-   helmChart := kcmd.HelmChart{
-      Namespace:         "default",
-      ReleaseName:       "nginx",
-      RelativeChartPath: "nginx-chart",
-   }
-
-   err := kcmd.RunHelmInstall(helmChart)
-   if err != nil {
-      log.Fatalf("Error executing 'helm install' command: %v", err)
-   }
-}
-
-
-```
-
-#### Running the Example
-There are two ways to run the example:
-  1. Run the example using the `go run` command.
-  2. Build the example using the `go build` command and run the executable.
-- 
-
+## Examples - Helm Commands
+### Example 1 - Install Nginx Helm Chart
+- [Here](./helm/install_nginx_minimal.go) is an example to demonstrates how to use the `kcmd` library to install a nginx helm chart
+- Running the Example
+- There are two ways to run the example:
 1. Run the example using the `go run` command.  
    With this method, we need to set the following environment variables before running the example. 
 ```shell 
@@ -57,44 +23,20 @@ go build install_nginx.go
 ./install_nginx
 ```
 
-The following is the same example where additional optional Helm arguments are provided. 
-#### File: [helm/install_nginx.go](./helm/install_nginx.go)
+### Example 2 - Install Nginx Helm Chart with additional arguments
+- [This](./helm/install_nginx.go) is the same example as above where additional optional Helm arguments are provided. 
+- 
 
-### Uninstall Nginx Helm Chart
-This example demonstrates how to use the `kcmd` library to uninstall a [Nginx Helm chart](./helm/nginx-chart) .
-#### File: [helm/uninstall_nginx.go](./helm/uninstall_nginx.go)
-See the first example for instructions on running the example.
+### Example 3 -  Uninstall Nginx Helm Chart
+- [This](./helm/uninstall_nginx.go) example demonstrates how to use the `kcmd` library to uninstall a nginx helm chart.
+- Refer to the first example for instructions on how to run the example.
 
 --- 
-## Docker Commands
+## Examples - Docker Commands
 
-### Check Docker Version
-
-This example demonstrates how to use the kcmd library to check the Docker version.
-#### File: [version_example_printcmd.go](./docker/version_example_printcmd.go)
-```go
-package main
-
-import (
-	"github.com/kgs19/kcmd"
-	"log"
-)
-
-// example usage of the kcmd package
-func main() {
-	// USe Config struct to enable command logging
-	customKcmdConfig := kcmd.Config{PrintCommandEnabled: true}
-	kcmd.SetConfig(customKcmdConfig)
-	err := kcmd.RunDockerVersion()
-	if err != nil {
-		log.Fatalf("Error executing 'docker version' command: %v", err)
-	}
-}
-
-```
-
-#### Running the Example
-Run the example using the `go run` command.
+### Example 1 - Print Docker Version
+- [This](./docker/version_printcmd.go) example demonstrates how to use the kcmd library to print the Docker version.
+- Run the example using the `go run` command.
 ```shell
 cd examples/docker/
 go run version_example_printcmd.go

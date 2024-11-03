@@ -1,6 +1,7 @@
 package kcmd
 
 import (
+	"github.com/kgs19/cmdx"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -8,19 +9,19 @@ import (
 
 // Config holds the configuration settings for the kcmd library.
 type Config struct {
-	PrintCommandEnabled bool   // Flag to enable or disable printing the command executed
-	BaseCommandDir      string // Directory to use to execute the commands
+	cmdx.Config
+	BaseCommandDir string // Directory to use to execute the commands
 }
 
 // DefaultConfig provides default settings for the library.
 var DefaultConfig = Config{
-	PrintCommandEnabled: getEnvAsBool("KCMD_PRINT_COMMAND_ENABLED", false), // Not print the command by default
-	BaseCommandDir:      getDefaultBaseCommandDir(),
+	BaseCommandDir: getDefaultBaseCommandDir(),
 }
 
 // SetConfig allows users to set custom configuration options.
 func SetConfig(cfg Config) {
 	DefaultConfig = cfg
+	cmdx.SetConfig(cfg.Config)
 }
 
 // getDefaultBaseCommandDir returns the default base command directory.

@@ -27,61 +27,25 @@ all commands that are prefixed with `Run` will print the output of the commands.
 all commands that are prefixed with `Get` will return the output of the commands.
 
 ## 💡 Examples
-See [./examples](./examples) for example usage.
-```go
-package main
-
-import (
-	"github.com/kgs19/kcmd"
-	"log"
-)
-
-func main() {
-	err := kcmd.RunDockerVersion()
-	if err != nil {
-		log.Fatalf("Error executing 'docker version' command: %v", err)
-	}
-}
-```
+[Here](examples/docker/version.go) is one of the simplest example of using the library:
+More examples are available in the [./examples](./examples) directory.
 
 ## ⚙️ Config struct
+
 ### Library Configuration
 The library also provides a `Config` struct that can be used to configure the behavior of the library.
-
-```go
-// Config holds the configuration settings for the kcmd library.
-type Config struct {
-	PrintCommandEnabled bool   // Flag to enable or disable printing the command executed
-	BaseCommandDir      string // Directory to use to execute the commands
-}
-```
+Following are the fields of the `Config` struct:
  - `PrintCommandEnabled`: Flag to enable or disable printing the command executed. Default is `false`.
  - `BaseCommandDir`: Directory to use to execute the commands. Default is the directory of the executable file.
-
-Example on how to use the `Config` struct:
-```go
-package main
-
-import (
-	"github.com/kgs19/kcmd"
-	"log"
-)
-
-func main() {
-	// Use custom Config struct to print the command executed and the cmd path
-	customKcmdConfig := kcmd.Config{PrintCommandEnabled: true}
-	kcmd.SetConfig(customKcmdConfig)
-	err := kcmd.RunDockerVersion()
-	if err != nil {
-		log.Fatalf("Error executing 'docker version' command: %v", err)
-	}
-}
-
-```
+[Here](examples/docker/version_printcmd.go) is an example on how to use the `Config` struct:
 
 ### Config struct - Environment Variables
-The library also provides a way to configure the library using environment variables.
+The library also provides a way to configure the library through environment variables.
 ```bash
-export KCMD_PRINT_COMMAND_ENABLED=true
+export CMDX_PRINT_COMMAND_ENABLED=true
 export KCMD_BASE_COMMAND_DIR=/path/to/base/dir
 ```
+
+
+## TODO
+- Add `Get` commands 
