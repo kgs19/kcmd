@@ -12,7 +12,7 @@ func TestRunHelmInstall(t *testing.T) {
 		RelativeChartPath: "charts/my-chart",
 		ValuesFiles:       []string{"values.yaml", "values-dev.yaml"},
 		SetValues:         map[string]string{"key1": "value1"},
-		WaitFlag:          true,
+		OptionalHelmFlags: []string{"--wait"},
 	}
 
 	// Mock DefaultConfig
