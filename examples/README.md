@@ -11,7 +11,7 @@ This directory contains example usage of the `kcmd` library. Below are the detai
    With this method, we need to set the following environment variables before running the example. 
 ```shell 
 cd examples/helm/
-export KCMD_PRINT_COMMAND_ENABLED=true # optional
+export CMDX_PRINT_COMMAND_ENABLED=true # optional
 export KCMD_BASE_COMMAND_DIR=$(pwd)
 go run install_nginx.go
 ```

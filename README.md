@@ -37,16 +37,15 @@ The library also provides a `Config` struct that can be used to configure the be
 Following are the fields of the `Config` struct:
  - `PrintCommandEnabled`: Flag to enable or disable printing the command executed. Default is `false`.
  - `BaseCommandDir`: Directory to use to execute the commands. Default is the directory of the executable file.
-[Here](examples/docker/version_printcmd.go) is an example on how to use the `Config` struct:
-
-### Config struct - Environment Variables
-The library also provides a way to configure the library through environment variables.
+The same can be set using environment variables as well:
 ```bash
 export CMDX_PRINT_COMMAND_ENABLED=true
 export KCMD_BASE_COMMAND_DIR=/path/to/base/dir
 ```
+Refer to the [examples](./examples) directory for more details on how to use the `Config` struct.
 
 
 ## TODO
-- Add `Get` commands 
 - Review Config struct - move logic to cmdx ??
+- Add `Get` commands 
+- Add more commands
