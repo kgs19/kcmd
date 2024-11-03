@@ -2,6 +2,7 @@ package kcmd
 
 import (
 	"fmt"
+	"github.com/kgs19/cmdx"
 )
 
 const helmCmd = "helm"
@@ -20,6 +21,9 @@ type HelmChart struct {
 
 // RunHelmCmd executes a Helm command in the specified directory.
 //
+// It is actually a variable holding a reference to an anonymous function.
+// This allows for easier overriding and testing.
+//
 // Parameters:
 // - cmdDir: The directory where the Helm command will be executed.
 // - envVars: A slice of environment variables to be set for the command execution.
@@ -31,8 +35,8 @@ type HelmChart struct {
 // The function constructs the Helm command with the specified arguments and executes it
 // in the provided directory. It uses the runCommandPrintOutput function to run the command
 // and print its output.
-func RunHelmCmd(cmdDir string, envVars []string, args ...string) error {
-	if err := runCommandPrintOutput(helmCmd, cmdDir, nil, args...); err != nil {
+var RunHelmCmd = func(cmdDir string, envVars []string, args ...string) error {
+	if err := cmdx.RunCommandPrintOutput(helmCmd, cmdDir, nil, args...); err != nil {
 		return err
 	}
 	return nil

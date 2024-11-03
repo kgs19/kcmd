@@ -20,10 +20,14 @@ func TestRunHelmInstall(t *testing.T) {
 		BaseCommandDir: "/path/to/base/command/dir",
 	}
 
-	// Mock runCommandPrintOutput function
-	runCommandPrintOutput = func(cmdStr, cmdDir string, env []string, args ...string) error {
+	// Save the original RunHelmCmd function
+	originalRunHelmCmd := RunHelmCmd
+	// Restore the original RunHelmCmd function after the test
+	defer func() { RunHelmCmd = originalRunHelmCmd }()
+
+	// Override RunHelmCmd function
+	RunHelmCmd = func(cmdDir string, envVars []string, args ...string) error {
 		// Verify the command and arguments
-		expectedCmdStr := "helm"
 		expectedCmdDir := "/path/to/base/command/dir/charts/my-chart"
 		expectedArgs := []string{
 			"upgrade", "--install", "--force", "--create-namespace",
@@ -34,9 +38,6 @@ func TestRunHelmInstall(t *testing.T) {
 			"--wait",
 		}
 
-		if cmdStr != expectedCmdStr {
-			t.Errorf("expected command %s, got %s", expectedCmdStr, cmdStr)
-		}
 		if cmdDir != expectedCmdDir {
 			t.Errorf("expected command directory %s, got %s", expectedCmdDir, cmdDir)
 		}
