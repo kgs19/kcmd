@@ -2,11 +2,15 @@ package kcmd
 
 import (
 	"fmt"
+	"github.com/kgs19/cmdx"
 )
 
 const dockerCmd = "docker"
 
 // RunDockerCmd executes a Docker command in the specified directory.
+//
+// It is actually a variable holding a reference to an anonymous function.
+// This allows for easier overriding and testing.
 //
 // Parameters:
 // - cmdDir: The directory where the Docker command will be executed.
@@ -19,8 +23,8 @@ const dockerCmd = "docker"
 // The function constructs the Docker command with the specified arguments and executes it
 // in the provided directory. It uses the runCommandPrintOutput function to run the command
 // and print its output.
-func RunDockerCmd(cmdDir string, envVars []string, args ...string) error {
-	if err := runCommandPrintOutput(dockerCmd, cmdDir, nil, args...); err != nil {
+var RunDockerCmd = func(cmdDir string, envVars []string, args ...string) error {
+	if err := cmdx.RunCommandPrintOutput(dockerCmd, cmdDir, nil, args...); err != nil {
 		return err
 	}
 	return nil

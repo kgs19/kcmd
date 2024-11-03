@@ -1,35 +1,29 @@
 package kcmd
 
 import (
-	"bytes"
+	"github.com/kgs19/cmdx"
 	"strings"
 	"testing"
 )
 
 func TestRunDockerVersion(t *testing.T) {
 	// Save the original function to restore it later
-	originalRunCommandPrintOutput := runCommandPrintOutput
-
-	// Override the runCommandPrintOutput variable
-	var output bytes.Buffer
-	runCommandPrintOutput = func(cmdStr string, cmdDir string, envVars []string, args ...string) error {
-		return runCommandWithEnv(cmdStr, cmdDir, envVars, &output, args...)
-	}
+	originalRunDockerCmd := RunDockerCmd
 
 	// Ensure the original function is restored after the test
 	defer func() {
-		runCommandPrintOutput = originalRunCommandPrintOutput
+		RunDockerCmd = originalRunDockerCmd
 	}()
 
 	tests := []struct {
 		name               string
-		config             Config
+		config             cmdx.Config
 		expectedOutputKeys []string
 		expectErr          bool
 	}{
 		{
 			name:   "Default configuration",
-			config: Config{},
+			config: cmdx.Config{},
 			expectedOutputKeys: []string{
 				"Client:",
 				"Version:",
@@ -40,7 +34,7 @@ func TestRunDockerVersion(t *testing.T) {
 		},
 		{
 			name:   "Custom configuration with PrintCommandEnabled",
-			config: Config{PrintCommandEnabled: true},
+			config: cmdx.Config{PrintCommandEnabled: true},
 			expectedOutputKeys: []string{
 				"Client:",
 				"Version:",
@@ -54,21 +48,28 @@ func TestRunDockerVersion(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			SetConfig(tt.config)
+			cmdx.SetConfig(tt.config)
+			// Mock the RunDockerCmd function to use RunCommandReturnOutput
+			RunDockerCmd = func(cmdDir string, envVars []string, args ...string) error {
+				output, err := cmdx.RunCommandReturnOutput(dockerCmd, cmdDir, nil, args...)
+				if err != nil {
+					return err
+				}
+				// Check the output for expected keys
+				expectedOutputKeys := tt.expectedOutputKeys
+				for _, key := range expectedOutputKeys {
+					if !strings.Contains(output, key) {
+						t.Errorf("Expected output to contain: %s, but it was not found", key)
+					}
+				}
+				return nil
+			}
+
 			err := RunDockerVersion()
 			if (err != nil) != tt.expectErr {
 				t.Errorf("RunDockerVersion() failed, expected error: %v, got: %v", tt.expectErr, err)
 			}
-
-			outputStr := output.String()
-			//fmt.Printf("Output: %s\n", outputStr)
-			// Check the captured output
-			for _, key := range tt.expectedOutputKeys {
-				if !strings.Contains(outputStr, key) {
-					t.Errorf("Expected output to contain: %s, but it was not found", key)
-				}
-			}
-
 		})
+
 	}
 }
